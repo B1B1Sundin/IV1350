@@ -1,0 +1,50 @@
+###Test### explanations 
+
+@Test
+public void aTest()
+- @Test contains tests and will be executed when tests are run.
+
+@BeforeEach
+public void prepareTest()
+- prepareTest is executed before each test method.
+
+
+@AfterEach
+public void cleanup()
+- cleanup is executed after each test method. 
+
+@BeforeAll
+public void prepareTests()
+- prepareTests is executed once before the first test in this class.
+
+@AfterAll
+public void cleanup()
+- cleanup is executed once after the last test in this class.
+
+###Assertion Examples###
+
+fail(“explanation”)
+- Always fails. Can be placed at a code line that should never be reached.
+
+assertTrue(condition, “explanation”)
+- Passes if condition is true. 
+
+assertFalse(condition, “explanation”)
+- Passes if condition is false.
+
+assertEquals(expected, actual,“explanation”)
+- Passes if expected and actual are equal. expected and actual can be of any Java type.
+
+assertNull(object, “explanation”)
+- Passes if object is null. 
+
+assertNotNull(object, “explanation”)
+- Passes if object is not null.
+
+Testers
+Model, controller, intergration
+
+
+
+
+

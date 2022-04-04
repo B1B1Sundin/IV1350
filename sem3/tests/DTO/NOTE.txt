@@ -1,0 +1,5 @@
+ Required! you must write unit tests for all classes in the layers 
+ controller, model, and integration, 
+ except classes that have just getters and constructors that only store values. 
+ It is also not required to test that output to System.out is correct, 
+ just ignore testing methods that only produce output to System.out.
