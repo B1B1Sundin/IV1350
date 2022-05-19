@@ -1,7 +1,7 @@
 package sem4.src.model;
 
 /**
- * Thrown when create, read or delete of an item fails.
+ * Thrown when retrieving an item_id fails,
  */
 public class ItemNotFoundException extends Exception {
 	/**
