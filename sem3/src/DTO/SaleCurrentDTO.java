@@ -2,8 +2,12 @@ package sem3.src.DTO;
 
 import sem3.src.model.Item;
 
+/**
+ * This is what will be shown on the display to the customer and cashier
+ */
+
 public class SaleCurrentDTO {
-	// Current Info about scanned item
+	// Current Info about currently scanned item
 	private int item_id;
 	private int item_price;
 	private int item_VAT;
