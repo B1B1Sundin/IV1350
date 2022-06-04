@@ -17,3 +17,24 @@ sem4.src.intergration.DataBaseException: Message: POS couldn't connect to the Da
 	at sem4.src.controller.Controller.eligibleItem_id(Controller.java:111)
 	at sem4.src.view.View.runFakeSale(View.java:66)
 	at sem4.src.startUp.Main.main(Main.java:13)
+
+
+
+
+26 maj 2022 15:16:04, Exception was thrown: Message: "POS couldn't connect to the Database, please wait or reload."
+sem4.src.intergration.DataBaseException: Message: "POS couldn't connect to the Database, please wait or reload."
+	at sem4.src.controller.Controller.eligibleItem_id(Controller.java:103)
+	at sem4.src.view.View.runFakeSale(View.java:69)
+	at sem4.src.startUp.Main.main(Main.java:13)
+
+
+26 maj 2022 15:19:37, Exception was thrown: null
+java.util.InputMismatchException
+	at java.base/java.util.Scanner.throwFor(Scanner.java:939)
+	at java.base/java.util.Scanner.next(Scanner.java:1594)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2258)
+	at java.base/java.util.Scanner.nextInt(Scanner.java:2212)
+	at sem4.src.view.View.runFakeSale(View.java:68)
+	at sem4.src.startUp.Main.main(Main.java:13)
+
+

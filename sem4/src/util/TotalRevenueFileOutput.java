@@ -7,9 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
-import sem4.src.model.Sale;
-
-public class TotalRevenueFileOutput implements Observer<Sale> {
+public class TotalRevenueFileOutput implements Observer<Integer> {
 	private int totalRevenue;
 	private static final String LOG_FILE_NAME = "TotalRevenueFileOutput.txt";
 	private static final TotalRevenueFileOutput INSTANCE = new TotalRevenueFileOutput();
@@ -29,10 +27,12 @@ public class TotalRevenueFileOutput implements Observer<Sale> {
 		}
 	}
 
+	/**
+	 * Method notice is defined in Observer.java.
+	 */
 	@Override
-	public void notice(Sale object) {
-		totalRevenue += object.getRunningTotal() + object.getRunningVAT();
-
+	public void notice(Integer sum) {
+		totalRevenue += sum;
 	}
 
 	public void printRevenueToFile() {

@@ -28,37 +28,16 @@ public class Controller {
 	private Accounting acc;
 	private Printer printer;
 	private Discount disc;
-	private List<Observer<Sale>> observers;
 
 	/**
 	 * Creates a new constructer of Controller
 	 * 
-	 * @param inv
+	 * @param inv The Inventory system that stores the info of each item.
 	 */
 	public Controller(Inventory inv) {
-		this.inv = inv; // Display inventory
-		observers = new LinkedList<>();
-		System.out.println("\nMessage: \"Controller was started successfully\""); // throw controller exception?
-	}
+		this.inv = inv;
 
-	/**
-	 * Adds an observer
-	 * 
-	 * @param obs observer to add
-	 */
-	public void addObserver(Observer<Sale> obs) {
-		observers.add(obs);
-	}
-
-	/**
-	 * Notifys the observers.
-	 * Used this.sale as the observers is based on Sale object. If we just used
-	 * "this" then it would notify the whole instance of Controller.
-	 */
-	private void notifyObservers() {
-		for (Observer<Sale> obs : observers) {
-			obs.notice(this.sale);
-		}
+		System.out.println("\nMessage: \"Controller was started successfully\"");
 	}
 
 	/**
@@ -74,12 +53,24 @@ public class Controller {
 	}
 
 	/**
+	 * Adds observer to Sale instance.
+	 * 
+	 * @param obs
+	 */
+	public void addSaleObserver(Observer<Integer> obs) {
+		this.sale.addObserver(obs);
+	}
+
+	/**
 	 * Adds an item or increases quantity of item,
 	 * to the instance of sale.
 	 * 
-	 * @param item_id
-	 * @param quantity
-	 * @return
+	 * @param item_id  the desired item we want to add
+	 * @param quantity quantity of the item to be added
+	 * @throws ItemNotFoundException is thrown by the method findItemWithId() if the
+	 *                               ID is not found in Inventory
+	 * @return a new and updated SaleCurrentDTO with the new item (shown for the
+	 *         display)
 	 */
 	public SaleCurrentDTO addItems(int item_id, int quantity) throws ItemNotFoundException {
 		// try {
@@ -91,10 +82,6 @@ public class Controller {
 		}
 		return sale.addNewItem(item, quantity);
 
-		// } catch (InvalidException e) {
-		// System.out.println("Could not add missing item");
-		// return null;
-		// }
 	}
 
 	/**
@@ -102,10 +89,10 @@ public class Controller {
 	 * ItemNotFoundException) and returns that id. If that found id == 666, then
 	 * throws new DataBaseException, to simulate database failure.
 	 * 
-	 * @param item_id
-	 * @return true or false
-	 * @throws ItemException
-	 * @throws DataBaseException
+	 * @param item_id The ID of the recently scanned item.
+	 * @throws ItemException     is thrown if ID is not found in Inventory.
+	 * @throws DataBaseException is thrown if database cannot be reached (when
+	 *                           entering 666 as ID)
 	 */
 
 	public void eligibleItem_id(int item_id) throws ItemNotFoundException, DataBaseException {
@@ -132,7 +119,7 @@ public class Controller {
 	/**
 	 * Applies discount on totals.
 	 * 
-	 * @param discount
+	 * @param discount The info of the requested and granted discount
 	 */
 	public void applyDiscount(DiscountDTO discount) {
 		double disc = discount.getDiscount();
@@ -143,12 +130,12 @@ public class Controller {
 	}
 
 	/**
-	 * gets Discount for customer, if discount is not eligible then it returns a
-	 * default new Discount(00000000, 0.0) -> not eligible
+	 * Gets Discount for customer.
 	 * 
-	 * @param customer_id
-	 * @return
-	 * @throws InvalidException
+	 * @param customer_id The customer's ID, used to find discount in Discount DB.
+	 * @throws InvalidException is thrown when the given ID is not eligible to any.
+	 *                          discounts.
+	 * @return The requested discount
 	 */
 	public DiscountDTO eligibleForDiscount(int customer_id) throws InvalidException {
 		DiscountDTO discount = disc.findDiscountWithId(customer_id);
@@ -158,8 +145,8 @@ public class Controller {
 	/**
 	 * Creates payment. Calculates and returns change.
 	 * 
-	 * @param amount (the payment from customer)
-	 * @param cost   (the cost of the sale)
+	 * @param amount The payment from customer.
+	 * @param cost   The cost of the sale.
 	 * @return the change from the payment
 	 */
 	public int payment(int amount, int cost) {
@@ -167,8 +154,8 @@ public class Controller {
 		SaleFinalDTO saleLog = this.sale.convertSaleToFinalDTO();
 
 		int change = payment.getAmount() - cost;
-		int old_balance = reg.getBalance(); //
-		reg.addPayment(cost); // adds to register
+		int old_balance = reg.getBalance();
+		reg.addPayment(cost);
 
 		System.out
 				.println("Message: \"Register has been updated\" - " + "(Old balance: " + old_balance + " SEK | New balance: "
@@ -181,8 +168,8 @@ public class Controller {
 	/**
 	 * Ends sale and completes payment.
 	 * 
-	 * @param payment
-	 * @param sale
+	 * @param payment The payment provided by the customer.
+	 * @param sale    The finalized info of the sale.
 	 */
 	public void endPaymentAndSale(PaymentDTO payment, SaleFinalDTO sale) {
 		Receipt receipt = this.sale.endSale(payment, sale);
@@ -190,7 +177,7 @@ public class Controller {
 		this.inv.updateInventory(sale);
 		this.acc.updateAccounting(sale);
 		this.printer.printReceipt(receipt);
-		this.notifyObservers();
+
 		this.sale = null;
 
 		System.out.println("Message: \"Thank you for shopping with us!\"\n");

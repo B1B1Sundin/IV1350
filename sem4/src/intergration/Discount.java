@@ -21,12 +21,11 @@ public class Discount {
 	}
 
 	/**
-	 * Finds matching discount with customer's id.
-	 * Returns a default new DiscountDTO(new CustomerDTO(00000000), 0.0)
-	 * if none is found (false).
+	 * Finds discount using the customer's ID.
 	 * 
-	 * @param customer_id
-	 * @return
+	 * @param customer_id The customer's ID.
+	 * @throws InvalidException is thrown if the given ID has no valid discounts.
+	 * @return The found disount.
 	 */
 	public DiscountDTO findDiscountWithId(int customer_id) throws InvalidException {
 		for (DiscountDTO discount : discount_list) {

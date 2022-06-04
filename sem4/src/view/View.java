@@ -27,8 +27,8 @@ public class View {
 		this.contr = contr;
 		this.totalRevenueObserver = new TotalRevenueView();
 		this.totalRevenueFileOutput = new TotalRevenueFileOutput();
-		this.contr.addObserver(this.totalRevenueObserver);
-		this.contr.addObserver((this.totalRevenueFileOutput));
+		// this.contr.addSaleObserver(this.totalRevenueObserver);
+		// this.contr.addSaleObserver((this.totalRevenueFileOutput));
 	}
 
 	/**
@@ -57,6 +57,9 @@ public class View {
 		boolean flag3 = true;
 
 		contr.startNewSale();
+		this.contr.addSaleObserver(this.totalRevenueObserver);
+		this.contr.addSaleObserver((this.totalRevenueFileOutput));
+
 		System.out.println("Message: \"New sale was started\" \n" + lineBreaker + "\n-INPUT-");
 
 		while (flag1) {
@@ -95,14 +98,14 @@ public class View {
 				System.out.print(lineBreaker);
 
 			} catch (ItemNotFoundException e) {
-				System.out.println(e.getMessage());
+				System.out.println("Message: The entered ID was not found in the Inventory database.");
 
 			} catch (DataBaseException e) {
-				System.out.println(e.getMessage());
+				System.out.println("Message: \"POS couldn't connect to the Database, please wait or reload.\"");
 				log_File.logException(e);
 
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
+				System.out.println("Message: An error has occured. Check for Invalid inputs."); // default error
 				log_File.logException(e);
 				flag1 = false;
 				System.out.println("Message (log): Exception was logged ");

@@ -2,6 +2,9 @@ package sem4.src.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import sem4.src.util.Observer;
 
 import sem4.src.DTO.PaymentDTO;
 import sem4.src.DTO.SaleCurrentDTO;
@@ -11,12 +14,33 @@ public class Sale {
 	private ArrayList<Item> requestedItems; // contains all items from customer
 	private int runningTotal = 0;
 	private int runningVAT = 0;
+	private List<Observer<Integer>> observers;
 
 	/**
 	 * Constructor creates Sale. Creates new list for new sale
 	 */
 	public Sale() {
 		requestedItems = new ArrayList<>();
+		observers = new LinkedList<>();
+	}
+
+	/**
+	 * Adds an observer
+	 * 
+	 * @param obs observer to add
+	 */
+	public void addObserver(Observer<Integer> obs) {
+		observers.add(obs);
+	}
+
+	/**
+	 * Notifys the observers.
+	 * Used this as the observers is based on instance of Sale object.
+	 */
+	private void notifyObservers() {
+		for (Observer<Integer> obs : observers) {
+			obs.notice(this.getRunningTotal() + this.getRunningVAT());
+		}
 	}
 
 	/**
@@ -91,7 +115,8 @@ public class Sale {
 	}
 
 	/**
-	 * Translates the class ItemDTO to class Item.
+	 * Finalizes the sale. Creating SaleFinalDTO with all info about the concluded
+	 * sale.
 	 * 
 	 * @param item
 	 * @return SaleFinalDTO
@@ -99,6 +124,7 @@ public class Sale {
 	public SaleFinalDTO convertSaleToFinalDTO() {
 		LocalDateTime dateAndTime = LocalDateTime.now();
 		SaleFinalDTO salelog = new SaleFinalDTO(dateAndTime, requestedItems, this.runningTotal, this.runningVAT);
+		this.notifyObservers();
 		return salelog;
 	}
 

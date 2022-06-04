@@ -21,7 +21,7 @@ public class DataBaseException extends Exception {
 	 * @param reason    Why the exception was thrown.
 	 * @param rootCause The exception that caused this exception to be thrown.
 	 */
-	public DataBaseException(String reason, Throwable rootCause) {
-		super(reason, rootCause);
+	public DataBaseException(Throwable rootCause) {
+		super("Database not reached", rootCause);
 	}
 }

@@ -1,9 +1,8 @@
 package sem4.src.view;
 
-import sem4.src.model.Sale;
 import sem4.src.util.Observer;
 
-public class TotalRevenueView implements Observer<Sale> {
+public class TotalRevenueView implements Observer<Integer> {
 	private int totalRevenue;
 
 	public TotalRevenueView() {
@@ -14,8 +13,8 @@ public class TotalRevenueView implements Observer<Sale> {
 	 * Method notice is defined in Observer.java.
 	 */
 	@Override
-	public void notice(Sale sale) {
-		totalRevenue += sale.getRunningTotal() + sale.getRunningVAT();
+	public void notice(Integer sum) {
+		totalRevenue += sum;
 	}
 
 	public void printTotalRevenue() {

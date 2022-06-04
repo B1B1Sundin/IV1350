@@ -7,16 +7,9 @@ import sem4.src.DTO.SaleFinalDTO;
 import sem4.src.model.Item;
 import sem4.src.model.ItemNotFoundException;
 
-/**
- * Class for Inventory
- */
 public class Inventory {
 	private List<Item> itemList;
 
-	/**
-	 * Creates new instance of Inventory
-	 * Assumes that the quantities of the items is infinite.
-	 */
 	public Inventory() {
 		itemList = new ArrayList<>();
 		itemList.add(new Item(101, 16, 2, "Ballerina Kladdkaka 210g Göteborgs"));
@@ -33,27 +26,25 @@ public class Inventory {
 	 * Finds item in inventory, with a given id.
 	 * If not found, throws NotFoundException
 	 * 
-	 * @param item_id
-	 * @return
+	 * @param item_id A unique ID for the item
+	 * @throws ItemNotFoundException is thrown if given ID does not match with the
+	 *                               ID's in Inventory
+	 * @return the found Item in inventory
 	 */
 	public Item findItemWithId(int item_id) throws ItemNotFoundException {
 		for (Item item : itemList)
 			if (item.getItem_id() == (item_id)) {
 				return item;
 			}
-		throw new ItemNotFoundException("Message: The ID " + item_id + " couldn't be found");
+		throw new ItemNotFoundException("The following ID was not found in Inventory database" + item_id);
 	}
 
 	/**
 	 * Messages that inventory is updated.
 	 * 
-	 * @param saleInfo
+	 * @param saleInfo the finalized info of the sale
 	 */
 	public void updateInventory(SaleFinalDTO saleInfo) {
 		System.out.println("Message: \"Inventory has been updated\"");
 	}
-
-	/**
-	 * // maybe implement so that inventory quantity decreases
-	 */
 }
